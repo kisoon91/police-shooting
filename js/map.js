@@ -1,18 +1,9 @@
 var map;
-var debug = false;
-var message = function(text){
-  if(debug)
-    {    console.log('DEBUG:' + text)}
-};
 // Function to draw your map
 var drawMap = function() {
 	map = L.map('container');
 	map.setView([40, -95], 4);
 	var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
-	layer.on('ready', function(){
-    message('Loaded');
-    $('#map-loading').remove();
-  });
   layer.addTo(map);
   getData(map); 
 };
@@ -42,23 +33,39 @@ var customBuild = function(data, map) {
     var age = d["Victim's Age"];
     if(gender == 'Male'){
       color = 'blue';
-      male.push(marker);
-    } else{
-      color = 'yellow';
-      female.push(marker);
-    }
-    if(age <= 20){
-      color = 'red';
-      under20.push(marker);
-    }else{
-      color = 'green';
-      over20.push(marker);
-    }  
-    var marker = new L.circleMarker([d["lat"], d["lng"]], {
+      var marker = new L.circleMarker([d["lat"], d["lng"]], {
       radius: 3,
       color: color,
       opacity: 0.4
      });
+      male.push(marker);
+    } else{
+      color = 'yellow';
+      var marker = new L.circleMarker([d["lat"], d["lng"]], {
+      radius: 3,
+      color: color,
+      opacity: 0.4
+     });
+      female.push(marker);
+    }
+    if(age <= 20){
+      color = 'red';
+      var marker = new L.circleMarker([d["lat"], d["lng"]], {
+      radius: 3,
+      color: color,
+      opacity: 0.4
+     });
+      under20.push(marker);
+    }else{
+      color = 'green';
+      var marker = new L.circleMarker([d["lat"], d["lng"]], {
+      radius: 3,
+      color: color,
+      opacity: 0.4
+     });
+      over20.push(marker);
+    }  
+
     marker.on('mouseover', function(evt){
       evt.target.bindPopup(d["Summary"]).openPopup();
     }); 
