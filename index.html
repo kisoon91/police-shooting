@@ -12,11 +12,17 @@
   </head>
 
   <body>
+    <div id="heading">
+      <h1>Police Shooting</h1>
+    </div>
     <div id="container" style="width:500px; height:500px;"></div>
     <script>
-      
-    	// This is where you should execute your drawMap function // 
-
+      $(document).ready(function(){
+        drawMap();
+      });
     </script>
+    <div id="summary">
+      <p>This map is about the crowdsourced police shootings from Deadspin last fall. You can check out by gender or age under and over 20. For more information, click <a href="http://regressing.deadspin.com/deadspin-police-shooting-database-update-were-still-go-1627414202">here.</p>
+    </div>
   </body>
 </html>
