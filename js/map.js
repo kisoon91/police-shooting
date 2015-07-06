@@ -14,7 +14,7 @@ var drawMap = function() {
     $('#map-loading').remove();
   });
   layer.addTo(map);
-  getData(); 
+  getData(map); 
 };
 
 // Function for getting data
@@ -37,7 +37,9 @@ var customBuild = function(data, map) {
   var under20 = [];
   var over20 = [];
   data.map(function(d){
-    if(d["Victim's Gender"] == 'Male'){
+    var gender = d["Victim's Gender"];
+    var age = d["Victim's Age"];
+    if(gender == 'Male'){
       var marker = new L.circleMarker([d["lat"], d["lng"]], {
       radius: 3,
       color: 'blue',
@@ -46,29 +48,26 @@ var customBuild = function(data, map) {
       var text = "";
       text += '<b>Data:</b>' + d.Summary;
       marker.bindPopup(text);
-
       male.push(marker);
     } else{
       color = 'yellow';
       female.push(marker);
     }
-    if(d["Victim's Age"] <= 20){
+    if(age <= 20){
       color = 'red';
       under20.push(marker);
     }else{
       color = 'green';
       over20.push(marker);
     }  
-    var marker = new L.circleMarker(d["lat"], d["lng"], {
+    var marker = new L.circleMarker([d["lat"], d["lng"]], {
       radius: 3,
       color: color,
       opacity: 0.4
      });
     marker.on('mouseover', function(evt){
-      evt.target.bindPopup(data).openPopup();
-      evt.target.bindPopup(d.Summary).openPopup();
+      evt.target.bindPopup(d["Summary"]).openPopup();
     }); 
-    dataType:"json"
   });
   var gender={
     "Male": L.layerGroup(male),
