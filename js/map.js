@@ -23,7 +23,7 @@ var getData = function() {
     url:'data/response.json',
     type:'get',
     success:function(data){
-      customBuild(data)
+      customBuild(data, map)
     },
     dataType:"json"
   });
@@ -31,19 +31,22 @@ var getData = function() {
 
 // Do something creative with the data here!  
 var customBuild = function(data, map) {
-  var all = [];
-  var none = [];
+  var color;  
   var male = [];
   var female = [];
-  var color;
+  var under20 = [];
+  var over20 = [];
   data.map(function(d){
     if(d["Victim's Gender"] == 'Male'){
-      var marker = new L.circleMarker(d["lat"], d["lng"], {
+      var marker = new L.circleMarker([d["lat"], d["lng"]], {
       radius: 3,
-      color: color,
+      color: 'blue',
       opacity: 0.4
-     });
-      color = 'blue';
+      });
+      var text = "";
+      text += '<b>Data:</b>' + d.Summary;
+      marker.bindPopup(text);
+
       male.push(marker);
     } else{
       color = 'yellow';
