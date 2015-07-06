@@ -2,7 +2,7 @@ var map;
 var debug = false;
 var message = function(text){
   if(debug)
-    console.log('DEBUG:' + text)
+    {    console.log('DEBUG:' + text)}
 };
 // Function to draw your map
 var drawMap = function() {
@@ -37,17 +37,11 @@ var customBuild = function(data, map) {
   var under20 = [];
   var over20 = [];
   data.map(function(d){
+    console.log(d)
     var gender = d["Victim's Gender"];
     var age = d["Victim's Age"];
     if(gender == 'Male'){
-      var marker = new L.circleMarker([d["lat"], d["lng"]], {
-      radius: 3,
-      color: 'blue',
-      opacity: 0.4
-      });
-      var text = "";
-      text += '<b>Data:</b>' + d.Summary;
-      marker.bindPopup(text);
+      color = 'blue';
       male.push(marker);
     } else{
       color = 'yellow';
@@ -69,15 +63,15 @@ var customBuild = function(data, map) {
       evt.target.bindPopup(d["Summary"]).openPopup();
     }); 
   });
-  var gender={
+  var gend={
     "Male": L.layerGroup(male),
     "Female": L.layerGroup(female)
   };
-  var age={
+  var ag={
     "Under 20": L.layerGroup(under20),
     "Over 20": L.layerGroup(over20)
   };
-  L.control.layers(gender, age).addTo(map);
+  L.control.layers(gend, ag).addTo(map);
 };
 
 
