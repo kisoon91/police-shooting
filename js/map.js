@@ -23,62 +23,80 @@ var getData = function() {
 // Do something creative with the data here!  
 var customBuild = function(data, map) {
   var color;  
+  var none = [];
+  var all = [];
   var male = [];
   var female = [];
   var under20 = [];
   var over20 = [];
   data.map(function(d){
-    console.log(d)
+    if (gender == 'Male'|| !(gender == 'Male')){
+      var marker = new L.circleMarker([d["lat"], d["lng"]], {
+        radius: 3,
+        color: 'black',
+        opacity: 0.4
+      });
+      marker.on('mouseover', function(evt){
+        evt.target.bindPopup("Summary: " + d["Summary"]).openPopup();
+      }); 
+      all.push(marker);
+    };
     var gender = d["Victim's Gender"];
     var age = d["Victim's Age"];
     if(gender == 'Male'){
-      color = 'blue';
       var marker = new L.circleMarker([d["lat"], d["lng"]], {
-      radius: 3,
-      color: color,
-      opacity: 0.4
-     });
+        radius: 3,
+        color: 'blue',
+        opacity: 0.4
+      });
+      marker.on('mouseover', function(evt){
+        evt.target.bindPopup("Summary: " + d["Summary"]).openPopup();
+      }); 
       male.push(marker);
     } else{
-      color = 'yellow';
       var marker = new L.circleMarker([d["lat"], d["lng"]], {
-      radius: 3,
-      color: color,
-      opacity: 0.4
-     });
+        radius: 3,
+        color: 'yellow',
+        opacity: 0.4
+      });
+      marker.on('mouseover', function(evt){
+        evt.target.bindPopup("Summary: " + d["Summary"]).openPopup();
+      }); 
       female.push(marker);
     }
     if(age <= 20){
-      color = 'red';
       var marker = new L.circleMarker([d["lat"], d["lng"]], {
-      radius: 3,
-      color: color,
-      opacity: 0.4
-     });
+        radius: 3,
+        color: 'red',
+        opacity: 0.4
+      });
+      marker.on('mouseover', function(evt){
+        evt.target.bindPopup("Summary: " + d["Summary"]).openPopup();
+      });  
       under20.push(marker);
     }else{
-      color = 'green';
       var marker = new L.circleMarker([d["lat"], d["lng"]], {
-      radius: 3,
-      color: color,
-      opacity: 0.4
-     });
+        radius: 3,
+        color: 'green',
+        opacity: 0.4
+      });
+      marker.on('mouseover', function(evt){
+        evt.target.bindPopup("Summary: " + d["Summary"]).openPopup();
+      }); 
       over20.push(marker);
     }  
-
-    marker.on('mouseover', function(evt){
-      evt.target.bindPopup(d["Summary"]).openPopup();
-    }); 
   });
-  var gend={
+  var everything = {
+    "All": L.layerGroup(all),
+    "None": L.layerGroup(none)
+  }
+  var gendage={
     "Male": L.layerGroup(male),
-    "Female": L.layerGroup(female)
-  };
-  var ag={
+    "Female": L.layerGroup(female),
     "Under 20": L.layerGroup(under20),
     "Over 20": L.layerGroup(over20)
   };
-  L.control.layers(gend, ag).addTo(map);
+  L.control.layers(everything, gendage).addTo(map);
 };
 
 
